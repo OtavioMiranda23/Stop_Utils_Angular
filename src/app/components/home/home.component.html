@@ -1,0 +1,54 @@
+<div style="display: flex;">
+    <span>Unusual Letters:</span>
+    @for(letter of unusualLetters; track letter) {
+        <p>{{ letter }}</p>
+    }
+</div>
+
+<label for="">
+    Show Add Letter in Unsual Letters
+    <input type="checkbox" [(ngModel)]="isShowAddLetter" name="" id="">
+</label>
+@if(isShowAddLetter) {
+    <div>
+        <label for="add-letter"> 
+            Add letter to Unusual Letters
+            <input 
+                type="text" 
+                [(ngModel)]="changeLetter" 
+                placeholder="Add letters to Unusual Letters"
+                maxlength="1"
+                (input)="validateChangeLetter()"
+                [class.error]="error.isActive"
+            />
+            <button (click)="addUnusualLetter()" [disabled]="error.isActive">Add to forbidden</button>
+            <p @if(error.isActive) class="error-message">{{ error.message }}</p>
+        </label>
+    </div>
+} @else {
+    <div>
+        <label>
+            Remove letter from forbidden list
+            <input 
+                type="text" 
+                [(ngModel)]="changeLetter" 
+                placeholder="Letter to be removed"
+                maxlength="1"
+                (input)="validateChangeLetter()"
+                [class.error]="error.isActive"
+            >
+            <button (click)="removeFromUnusualLetters()" [disabled]="error.isActive">Remove from forbidden</button>
+            <p *ngIf="error.isActive" class="error-message">{{ error.message }}</p>
+        </label>
+    </div>
+}
+<br>
+
+<div>
+    <span>Alfabeto</span>
+    <div style="display: flex;">
+        @for(letter of alf; track letter) {
+            <p>{{ letter }}</p>
+        }
+    </div>
+</div>
