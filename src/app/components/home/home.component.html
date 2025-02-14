@@ -38,14 +38,23 @@
                 [class.error]="error.isActive"
             >
             <button (click)="removeFromUnusualLetters()" [disabled]="error.isActive">Remove from forbidden</button>
-            <p *ngIf="error.isActive" class="error-message">{{ error.message }}</p>
+            <p @if(error.isActive) class="error-message">{{ error.message }}</p>
         </label>
     </div>
 }
 <br>
 
 <div>
+    <button (click)="sortLetter()">Sort Letter</button>
+    <span>Sorted letter: {{ sortedLetter }}</span>
+</div>
+
+<div>
     <span>Alfabeto</span>
+    <div>
+        <span>Delete letters</span>
+        <button (click)="deleteLetters()">Delete Letters</button>
+    </div>
     <div style="display: flex;">
         @for(letter of alf; track letter) {
             <p>{{ letter }}</p>

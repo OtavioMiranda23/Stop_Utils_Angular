@@ -8,7 +8,11 @@ import {FormsModule} from '@angular/forms';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  alf = ["a", "b", "c", "d", "e"];
+  alf = [
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+  ];
+  sortedLetter = "";
+  sortedHistory: string[] = []
   changeLetter = "";
   unusualLetters = ["U", "K", "W", "Y", "X", "Z", "H", "Q"];
   isShowAddLetter = true;
@@ -20,7 +24,7 @@ export class HomeComponent {
   validateChangeLetter() {
     if (!/[A-Za-z]/.test(this.changeLetter)) {
       this.error.isActive = true;
-      this.error.message = "Insira uma letra";
+      this.error.message = "Caracter inválido. Insira uma letra";
       return;
     }
     if (this.changeLetter.length > 1) {
@@ -33,32 +37,31 @@ export class HomeComponent {
     this.changeLetter = this.changeLetter[0].toUpperCase() || "" ;
   }
 
-  getChangeLetter() {
-    const regexValue  = /[A-Za-z]/; 
-    if (!regexValue.test(this.changeLetter[0]) ) {
-        this.error.isActive = true;
-        this.error.message = `O campo não pode estar vazio`;
-        return "";
-    }
-    this.error.isActive = false;
-    this.error.message = "";
-    return this.changeLetter[0];
-  }
-
   changeAlf(valor: string[]) {
     this.alf = valor;
   };
 
   addUnusualLetter() {
-    if (this.unusualLetters.includes(this.getChangeLetter())) {
+    if (this.unusualLetters.includes(this.changeLetter)) {
       this.error.isActive = true;
-      this.error.message = `A letra ${this.getChangeLetter()} já existe na lista`;
+      this.error.message = `A letra ${this.changeLetter} já existe na lista`;
       return;
     }
-    this.unusualLetters.push(this.getChangeLetter());
+    this.unusualLetters.push(this.changeLetter);
   }
 
   removeFromUnusualLetters() {
-    this.unusualLetters = this.unusualLetters.filter(letter => letter !== this.getChangeLetter());
+    this.unusualLetters = this.unusualLetters.filter(letter => letter !== this.changeLetter);
+  }
+
+  deleteLetters() {
+    this.alf = this.alf.filter(letter => !this.unusualLetters.includes(letter));
+  }
+
+  sortLetter() {
+    const indexAlf = Math.floor(Math.random() * this.alf.length);
+    this.sortedLetter = this.alf[indexAlf];
+    this.sortedHistory.push(this.sortedLetter);
+    this.alf = this.alf.filter(letter => !this.sortedHistory.includes(letter));
   }
 }
