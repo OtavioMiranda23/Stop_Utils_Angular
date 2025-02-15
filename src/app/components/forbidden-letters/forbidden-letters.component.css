@@ -1,35 +1,45 @@
-.alf {
+h1 {
+    text-align: center;
+}
+.unusual-letters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.unusual-letters div {
     display: flex;
     gap: 1rem;
-    overflow-x: scroll;
+    font-size: 21px;
 }
-.letter {
+.unusual-letters p {
     padding: 1rem;
     background-color: var(--primary-color);
     color: var(--second-color);
     border-radius: 6px;
     cursor: pointer;
     transition: .2s ease-in-out;
-    max-width: 2rem
 }
-.letter:hover {
+.unusual-letters p:hover {
     background-color: var(--third-color);
     color: var(--primary-color);
     transition: .2s ease-in-out;
 }
-.sort {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6rem;
-    margin-top: 4rem;
-}
-.sort div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 
+.wrapper-checkbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
-.sort p {
-    font-size: 21px;
+.wrapper-checkbox div label {
+    display: flex;
+    flex-direction: column;
+}
+.wrapper-checkbox input {
+    margin: 1rem;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
 }

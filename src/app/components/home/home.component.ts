@@ -1,11 +1,26 @@
-import { Component } from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import { Component, NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ForbiddenLettersService } from '../../services/forbidden-letters.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
   imports: [FormsModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.css',
+  animations: [
+    trigger('slideIn', [
+      transition(':enter', [
+        style({ transform: 'translateX(-100%)', opacity: 0 }),
+        animate('500ms 200ms', style({ transform: 'translateX(0)', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        style({ transform: 'translateX(0)', opacity: 1 }),
+        animate('500ms', style({ transform: 'translateX(100%)', opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class HomeComponent {
   alf = [
@@ -13,49 +28,11 @@ export class HomeComponent {
   ];
   sortedLetter = "";
   sortedHistory: string[] = []
-  changeLetter = "";
-  unusualLetters = ["U", "K", "W", "Y", "X", "Z", "H", "Q"];
-  isShowAddLetter = true;
-  error = {
-    isActive: false,
-    message: ""
-  }
 
-  validateChangeLetter() {
-    if (!/[A-Za-z]/.test(this.changeLetter)) {
-      this.error.isActive = true;
-      this.error.message = "Caracter inválido. Insira uma letra";
-      return;
-    }
-    if (this.changeLetter.length > 1) {
-      this.error.isActive = true;
-      this.error.message = "Insira apenas um caracter";
-      return;
-    }
-    this.error.isActive = false;
-    this.error.message = "";
-    this.changeLetter = this.changeLetter[0].toUpperCase() || "" ;
-  }
-
-  changeAlf(valor: string[]) {
-    this.alf = valor;
-  };
-
-  addUnusualLetter() {
-    if (this.unusualLetters.includes(this.changeLetter)) {
-      this.error.isActive = true;
-      this.error.message = `A letra ${this.changeLetter} já existe na lista`;
-      return;
-    }
-    this.unusualLetters.push(this.changeLetter);
-  }
-
-  removeFromUnusualLetters() {
-    this.unusualLetters = this.unusualLetters.filter(letter => letter !== this.changeLetter);
-  }
+  constructor (private forbiddenLetters: ForbiddenLettersService) {}
 
   deleteLetters() {
-    this.alf = this.alf.filter(letter => !this.unusualLetters.includes(letter));
+    this.alf = this.alf.filter(letter => !this.forbiddenLetters.getUnusualLetters().includes(letter));
   }
 
   sortLetter() {

@@ -1,0 +1,59 @@
+<h1>Stop Utils</h1>
+
+<div class="unusual-letters">
+    <h2>Letras a serem retiradas:</h2>
+    <div>
+        @for(letter of unusualLetters; track letter) {
+            <p (click)="removeFromClickUnusualLetters($event)">{{ letter }}</p>
+        }
+    </div>
+</div>
+<div class="wrapper-checkbox">
+    <label  for="">
+        @if (isShowAddLetter) {
+            Mudar para retirar letra do sorteio:
+        } @else {
+            Mudar para adicionar letra do sorteio: 
+        }
+        <input type="checkbox" [(ngModel)]="isShowAddLetter" name="" id="">
+    </label>
+    @if(isShowAddLetter) {
+        <div>
+            <label for="add-letter"> 
+                Adicionar letra a lista proibida:
+                <input 
+                    type="text" 
+                    [(ngModel)]="changeLetter" 
+                    placeholder="Digete apenas uma letra"
+                    maxlength="1"
+                    (input)="validateChangeLetter()"
+                    [class.error]="error.isActive"
+                />
+                <p *ngIf="error.isActive" class="error-message">{{ error.message }}</p>
+                <button (click)="addUnusualLetter()" [disabled]="error.isActive" >Adicionar</button>
+            </label>
+        </div>
+    } @else {
+        <div>
+            <label>
+                Remover letra da lista proibida
+                <input 
+                    type="text" 
+                    [(ngModel)]="changeLetter" 
+                    placeholder="Letra a ser removida"
+                    maxlength="1"
+                    (input)="validateChangeLetter()"
+                    [class.error]="error.isActive"
+                >
+                <p *ngIf="error.isActive" class="error-message">{{ error.message }}</p>
+                <button (click)="removeFromUnusualLetters()" [disabled]="error.isActive">Remover</button>
+            </label>
+        </div>
+    }
+    <div>
+        <a 
+        routerLink="/sort"
+        routerLinkActive="active"
+        ><button class="btn-2">Começar</button></a>
+    </div>
+</div>
